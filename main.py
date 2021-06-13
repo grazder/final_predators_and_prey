@@ -1,6 +1,7 @@
 from predators_and_preys_env.env import PredatorsAndPreysEnv
-from solution_check.simple_angle import PredatorAgent, PreyAgent
+#from solution_check.simple_angle import PredatorAgent, PreyAgent
 #from solution_check.simpl_dimpl import PredatorAgent, PreyAgent
+from imitation.submission import PredatorAgent, PreyAgent
 
 env = PredatorsAndPreysEnv(render=True)
 predator_agent = PredatorAgent()
@@ -10,10 +11,7 @@ a = None
 done = True
 state_dict = None
 
-import numpy as np
-
-#12
-for i in range(1):
+for i in range(2):
     state_dict = env.reset()
 for i in range(100000):
     if done:
