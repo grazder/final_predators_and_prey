@@ -101,6 +101,7 @@ PREDATOR_FEATURE_SIZE = 52
 class PreyAgent:
     def __init__(self):
         self.model = ActorNetwork(PREY_FEATURE_SIZE, 64)
+        #self.model.load_state_dict(torch.load("prey_model.pkl"))
         self.model.load_state_dict(torch.load(__file__[:-13] + "/prey_model.pkl"))
         self.model.eval()
 
@@ -120,6 +121,7 @@ class PredatorAgent:
     def __init__(self):
         self.model = ActorNetwork(PREDATOR_FEATURE_SIZE, 64)
         self.model.load_state_dict(torch.load(__file__[:-13] + "/predator_model.pkl"))
+        #self.model.load_state_dict(torch.load("predator_model.pkl"))
         self.model.eval()
 
     def act(self, state_dict):

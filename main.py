@@ -11,7 +11,7 @@ a = None
 done = True
 state_dict = None
 
-for i in range(2):
+for i in range(3):
     state_dict = env.reset()
 for i in range(100000):
     if done:
