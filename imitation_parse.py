@@ -41,8 +41,8 @@ class Buffer:
         np.save(os.path.join(dir, f'{name}:states.npy'), self.states)
 
 SAVE_SIZE = 100_000
-PREY_FEATURE_SIZE = 210
-PREDATOR_FEATURE_SIZE = 104
+PREY_FEATURE_SIZE = 42
+PREDATOR_FEATURE_SIZE = 52
 
 if __name__ == '__main__':
     env = PredatorsAndPreysEnv(render=False)
@@ -63,10 +63,12 @@ if __name__ == '__main__':
 
         if transitions % 5 == 0:
             for i, prey in enumerate(state_dict["preys"]):
-                prey_buffer.push(generate_features_prey(state_dict), prey_action[i])
+                features = generate_features_prey(state_dict, i)
+                prey_buffer.push(features, prey_action[i])
 
             for j, predator in enumerate(state_dict["predators"]):
-                predator_buffer.push(generate_features_predator(state_dict), predator_action[j])
+                features = generate_features_predator(state_dict, j)
+                predator_buffer.push(generate_features_predator(state_dict, j), predator_action[j])
 
         state_dict, reward, done = env.step(predator_action, prey_action)
         transitions += 1
