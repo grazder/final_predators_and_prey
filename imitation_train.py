@@ -1,7 +1,5 @@
 import torch
 import torch.nn as nn
-import argparse
-import sys
 from torch.optim import Adam
 from torch.utils.data import DataLoader, TensorDataset
 from os import listdir
@@ -75,17 +73,15 @@ def train(model: ActorNetwork, num_epochs: int, data_path: str, save_path: str):
         print(f"Average MSE loss: {round(total_loss / num_parts, 4)}")
         torch.save(model.state_dict(), save_path)
 
-
+SAVE_SIZE = 100_000
+PREY_FEATURE_SIZE = 42
+PREDATOR_FEATURE_SIZE = 52
+HIDDEN_DIM = 64
+NUM_EPOCHS = 50
+DATA_PATH = 'imitation/prey'
+SAVE_PATH = 'imitation/prey_model.pkl'
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--state_dim", type=int)
-    parser.add_argument("--hidden_dim", default=64, type=int)
-    parser.add_argument("--num_epochs", default=50, type=int)
-    parser.add_argument("--data_path", type=str)
-    parser.add_argument("--save_path", type=str)
-    params = parser.parse_args()
-
-    model = ActorNetwork(state_dim=params.state_dim, hidden_dim=params.hidden_dim)
-    train(model, num_epochs=params.num_epochs, data_path=params.data_path, save_path=params.save_path)
+    model = ActorNetwork(PREY_FEATURE_SIZE, HIDDEN_DIM)
+    train(model, num_epochs=NUM_EPOCHS, data_path=DATA_PATH, save_path=SAVE_PATH)
     print(f"Model successfully saved!")
