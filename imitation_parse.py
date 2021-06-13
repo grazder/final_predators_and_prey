@@ -1,10 +1,12 @@
 import json
 import sys
+import os
 
 import numpy as np
 from imitation.features import generate_features_prey, generate_features_predator
 from imitation.agents import PredatorAgent, PreyAgent
 from predators_and_preys_env.env import PredatorsAndPreysEnv, DEFAULT_CONFIG
+from tqdm import tqdm
 
 
 class Buffer:
@@ -35,8 +37,8 @@ class Buffer:
         return self.filled_i == self.buffer_size
 
     def save(self, name: str, dir: str):
-        np.save(f"{dir}/{name}:actions.npy", self.actions)
-        np.save(f"{dir}/{name}:states.npy", self.states)
+        np.save(os.path.join(dir, f'{name}:actions.npy'), self.actions)
+        np.save(os.path.join(dir, f'{name}:states.npy'), self.states)
 
 SAVE_SIZE = 100_000
 PREY_FEATURE_SIZE = 210
@@ -70,12 +72,12 @@ if __name__ == '__main__':
         transitions += 1
 
         if predator_buffer.full():
-            predator_buffer.save(f"{transitions}", "./predator")
+            predator_buffer.save(f"{transitions}", "imitation/predator")
             predator_buffer.clear()
             print(f"Save predator buffer at transition {transitions}")
 
         if prey_buffer.full():
-            prey_buffer.save(f"{transitions}", "./prey")
+            prey_buffer.save(f"{transitions}", "imitation/prey")
             prey_buffer.clear()
             print(f"Save prey buffer at transition {transitions}")
 
